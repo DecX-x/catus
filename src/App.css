@@ -49,6 +49,20 @@
     transform: scale(1.05);
   }
 
+  .history-list::-webkit-scrollbar {
+    width: 8px;
+  }
+  .history-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .history-list::-webkit-scrollbar-thumb {
+    background: #FFD9C0;
+    border-radius: 4px;
+  }
+  .history-list::-webkit-scrollbar-thumb:hover {
+    background: #FF8C42;
+  }
+
   .playing .wave-bar {
     animation: waveform 0.8s ease-in-out infinite;
   }
