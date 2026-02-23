@@ -4,13 +4,9 @@ version = "0.1.0"
 description = "A Tauri App"
 authors = ["you"]
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+default-run = "catus-desktop"
 
 [lib]
-# The `_lib` suffix may seem redundant but it is necessary
-# to make the lib name unique and wouldn't conflict with the bin name.
-# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
 name = "catus_desktop_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
@@ -20,11 +16,22 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2", features = [] }
 tauri-plugin-opener = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-dialog = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-# ort with download-binaries fetches the correct matching ONNX Runtime DLL at build time,
-# bypassing the stale v1.17 system DLL in C:\Windows\System32.
-ort = { version = "2.0.0-rc.8", features = ["download-binaries", "copy-dylibs", "half", "ndarray"] }
-hound = "3.5.1"
-rodio = { version = "0.22.1", default-features = false, features = ["wav"] }
+
+# ort 2.0.0-rc.10 = ORT 1.22 bindings.
+# We use ORT 1.21.0 DLL (backward compat — same C API).
+# load-dynamic: dlopen onnxruntime.dll at runtime via ORT_DYLIB_PATH env var.
+# No download-binaries: avoids static MSVC compilation issues.
+ort = { version = "=2.0.0-rc.10", default-features = false, features = ["load-dynamic", "ndarray"] }
+
+# ndarray 0.16 — matches what ort rc.10 uses
 ndarray = "0.16"
+
+# WAV encoding
+hound = "3.5.1"
+
+# voices.npz parsing (numpy zip format)
+zip = "2"

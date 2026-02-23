@@ -12,9 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "catus-desktop",
-        "width": 800,
-        "height": 600
+        "title": "Catus",
+        "width": 1280,
+        "height": 820,
+        "minWidth": 1024,
+        "minHeight": 680
       }
     ],
     "security": {
@@ -30,6 +32,12 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "resources": {
+      "onnxruntime.dll": "onnxruntime.dll",
+      "../models/kitten_tts_nano_v0_8.onnx": "models/kitten_tts_nano_v0_8.onnx",
+      "../models/voices.npz": "models/voices.npz",
+      "../models/config.json": "models/config.json"
+    }
   }
 }
