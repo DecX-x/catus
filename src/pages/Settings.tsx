@@ -61,7 +61,7 @@ export function Settings() {
   }
 
   return (
-    <main className="flex-1 w-full flex flex-col h-screen overflow-hidden relative">
+    <main className="flex-1 min-w-0 w-full flex flex-col h-screen overflow-hidden relative">
       <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none" />
       <div className="absolute bottom-[-50px] left-[200px] w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none" />
 
