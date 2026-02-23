@@ -294,7 +294,7 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
   const hasAudio = audioBufferRef.current !== null;
 
   return (
-    <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+    <main className="flex-1 min-w-0 w-full flex flex-col h-screen overflow-hidden relative">
       {/* Ambient blobs */}
       <div className="absolute top-[-80px] right-[-80px] w-96 h-96 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-25 pointer-events-none" />
       <div className="absolute bottom-[-80px] left-[160px] w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none" />

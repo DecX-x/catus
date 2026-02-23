@@ -61,7 +61,7 @@ export function Settings() {
   }
 
   return (
-    <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+    <main className="flex-1 w-full flex flex-col h-screen overflow-hidden relative">
       <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none" />
       <div className="absolute bottom-[-50px] left-[200px] w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none" />
 
@@ -95,80 +95,107 @@ export function Settings() {
       </header>
 
       <div className="flex-1 px-8 pb-8 overflow-y-auto z-10">
-        <div className="max-w-4xl mx-auto flex flex-col gap-6">
+        <div className="flex flex-col gap-6 h-full">
 
-          {/* Output Directory */}
-          <div className="bg-surface rounded-3xl p-8 shadow-neostyle border-2 border-white">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-orange-100 rounded-lg text-primary flex items-center justify-center">
-                <span className="material-symbols-outlined">folder_open</span>
-              </div>
-              <h2 className="font-display font-bold text-xl text-text">Output Directory</h2>
-            </div>
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1 relative">
-                <input
-                  className="w-full bg-gray-50 border-2 border-gray-100 rounded-xl px-4 py-3 text-text-muted font-mono text-sm focus:border-primary focus:ring-0 shadow-inner-depth outline-none"
-                  readOnly
-                  type="text"
-                  value={settings.outputDir || ""}
-                  placeholder="(not set — will prompt on each download)"
-                />
-              </div>
-              <button
-                className="bg-white text-text border-2 border-gray-200 px-6 py-3 rounded-xl font-bold shadow-button-depth-secondary squishy-btn hover:bg-gray-50 flex-shrink-0"
-                onClick={handleBrowse}
-              >
-                Browse
-              </button>
-            </div>
-            <p className="mt-2 text-xs text-text-muted ml-1">
-              Location where generated audio files will be saved. Leave blank to be prompted each time.
-            </p>
-          </div>
+          {/* Top row — Output Directory + About stacked left, Default Voice fills right */}
+          <div className="flex gap-6 flex-1 min-h-0">
 
-          {/* Default Voice */}
-          <div className="bg-surface rounded-3xl p-8 shadow-neostyle border-2 border-white">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-blue-100 rounded-lg text-blue-500 flex items-center justify-center">
-                <span className="material-symbols-outlined">record_voice_over</span>
-              </div>
-              <h2 className="font-display font-bold text-xl text-text">Default Voice</h2>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
-              {VOICES.map((v) => {
-                const active = settings.defaultVoice === v;
-                return (
+            {/* Left column */}
+            <div className="flex flex-col gap-6 w-80 flex-shrink-0">
+              {/* Output Directory */}
+              <div className="bg-surface rounded-3xl p-7 shadow-neostyle border-2 border-white">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="p-2 bg-orange-100 rounded-lg text-primary flex items-center justify-center">
+                    <span className="material-symbols-outlined">folder_open</span>
+                  </div>
+                  <h2 className="font-display font-bold text-xl text-text">Output Directory</h2>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <input
+                    className="w-full bg-gray-50 border-2 border-gray-100 rounded-xl px-4 py-3 text-text-muted font-mono text-sm focus:border-primary focus:ring-0 shadow-inner-depth outline-none"
+                    readOnly
+                    type="text"
+                    value={settings.outputDir || ""}
+                    placeholder="(not set — prompt on download)"
+                  />
                   <button
-                    key={v}
-                    onClick={() => setSettings((s) => ({ ...s, defaultVoice: v }))}
-                    className={`flex flex-col items-start gap-1 px-4 py-3 rounded-2xl border-2 transition-all text-left ${
-                      active
-                        ? "border-primary bg-orange-50 shadow-neostyle"
-                        : "border-gray-100 bg-white hover:border-orange-200"
-                    }`}
+                    className="w-full bg-white text-text border-2 border-gray-200 px-6 py-3 rounded-xl font-bold shadow-button-depth-secondary squishy-btn hover:bg-gray-50 flex items-center justify-center gap-2"
+                    onClick={handleBrowse}
                   >
-                    <span className={`font-bold text-sm ${active ? "text-primary" : "text-text"}`}>
-                      {v}
-                    </span>
-                    <span className="text-xs text-text-muted">{VOICE_DESC[v]}</span>
-                    {active && (
-                      <span className="material-symbols-outlined text-primary text-sm">check_circle</span>
-                    )}
+                    <span className="material-symbols-outlined text-sm">folder_open</span>
+                    Browse
                   </button>
-                );
-              })}
-            </div>
-            <p className="mt-4 text-xs text-text-muted ml-1">
-              This voice will be pre-selected when you open Studio.
-            </p>
-          </div>
+                </div>
+                <p className="mt-3 text-xs text-text-muted">
+                  Leave blank to be prompted on each download.
+                </p>
+              </div>
 
-          {/* About */}
-          <div className="flex justify-center mt-2 mb-8">
-            <p className="text-xs text-text-muted font-mono">
-              Catus v1.0.0 — KittenTTS nano model — CPU-only, offline
-            </p>
+              {/* About */}
+              <div className="bg-surface rounded-3xl p-6 shadow-neostyle border-2 border-white">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-gray-100 rounded-lg text-text-muted flex items-center justify-center">
+                    <span className="material-symbols-outlined">info</span>
+                  </div>
+                  <h2 className="font-display font-bold text-xl text-text">About</h2>
+                </div>
+                <div className="space-y-2 text-sm text-text-muted">
+                  <div className="flex justify-between">
+                    <span className="font-medium">Version</span>
+                    <span className="font-mono font-bold text-text">1.0.0</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Model</span>
+                    <span className="font-mono font-bold text-text">KittenTTS nano</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Inference</span>
+                    <span className="font-mono font-bold text-text">CPU-only</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Connectivity</span>
+                    <span className="font-mono font-bold text-text">Offline</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right column — Default Voice fills remaining space */}
+            <div className="flex-1 bg-surface rounded-3xl p-7 shadow-neostyle border-2 border-white flex flex-col">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="p-2 bg-blue-100 rounded-lg text-blue-500 flex items-center justify-center">
+                  <span className="material-symbols-outlined">record_voice_over</span>
+                </div>
+                <h2 className="font-display font-bold text-xl text-text">Default Voice</h2>
+              </div>
+              <div className="grid grid-cols-4 gap-4 flex-1 content-start">
+                {VOICES.map((v) => {
+                  const active = settings.defaultVoice === v;
+                  return (
+                    <button
+                      key={v}
+                      onClick={() => setSettings((s) => ({ ...s, defaultVoice: v }))}
+                      className={`flex flex-col items-start gap-1.5 px-5 py-4 rounded-2xl border-2 transition-all text-left h-full min-h-[90px] ${
+                        active
+                          ? "border-primary bg-orange-50 shadow-neostyle"
+                          : "border-gray-100 bg-white hover:border-orange-200 hover:bg-orange-50/30"
+                      }`}
+                    >
+                      <span className={`font-bold text-base ${active ? "text-primary" : "text-text"}`}>
+                        {v}
+                      </span>
+                      <span className="text-xs text-text-muted leading-snug">{VOICE_DESC[v]}</span>
+                      {active && (
+                        <span className="material-symbols-outlined text-primary text-base mt-auto">check_circle</span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="mt-4 text-xs text-text-muted">
+                This voice will be pre-selected when you open Studio.
+              </p>
+            </div>
           </div>
         </div>
       </div>

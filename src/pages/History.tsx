@@ -224,7 +224,7 @@ export function History() {
   }, [stopPlayer]);
 
   return (
-    <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+    <main className="flex-1 min-w-0 w-full flex flex-col h-screen overflow-hidden relative">
       <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none" />
       <div className="absolute bottom-[-50px] left-[200px] w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none" />
 
@@ -271,7 +271,7 @@ export function History() {
       )}
 
       <div className="flex-1 px-8 pb-8 overflow-y-auto z-10">
-        <div className="max-w-5xl mx-auto space-y-6">
+        <div className="space-y-6">
           {groups.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-text-muted gap-4">
               <span className="material-symbols-outlined text-6xl text-gray-200">history</span>

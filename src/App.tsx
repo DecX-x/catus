@@ -26,7 +26,7 @@ function App() {
   }, [activeTab]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex w-full h-screen overflow-hidden">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {activeTab === "studio" && <Studio defaultVoice={settings.defaultVoice} />}
