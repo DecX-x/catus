@@ -39,25 +39,9 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
         </nav>
       </div>
       <div className="px-4 lg:px-6">
-        <div className="bg-secondary/30 rounded-2xl p-4 border border-orange-100 hidden lg:block">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="material-symbols-outlined text-primary">computer</span>
-            <span className="text-xs font-bold text-primaryDark uppercase">System Load</span>
-          </div>
-          <div className="w-full bg-white rounded-full h-2 mb-1">
-            <div className="bg-primary h-2 rounded-full" style={{ width: "12%" }}></div>
-          </div>
-          <span className="text-xs text-text-muted">CPU Usage: 12%</span>
-        </div>
-        <div className="mt-4 flex items-center justify-center lg:justify-start gap-3 px-2">
-          <div className="w-8 h-8 rounded-full bg-gray-200 border-2 border-white shadow-sm overflow-hidden">
-            <img alt="User" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe5D_yxwpCb7QgY-DtCFM0MCq9CV7H-dzXpkG9skr50PC2b5ObJhHlY7WLSbRHiSKQ7aP-EzZzB_cH_yAyvAHlQl_SL0mJljvfr2f_J63V045Tf7Wm8R-Oeh70jpZYLEBYZHkF4LAwlob5XBhjfj9zVKfZAAT_EgjMBL65CddPNB_-yRF91qc_VkRKfdau-mtd4JQw8o37wfCgnqiFfa-m7_D49Fu3V2jEURxTr5Wt0q32-zZlt4l6m1wtGgLOg6vjLMSm0g9wU4w"/>
-          </div>
-          <div className="hidden lg:block">
-            <p className="text-sm font-bold text-text">Pro User</p>
-            <p className="text-xs text-text-muted">v1.0.4 Local</p>
-          </div>
-        </div>
+        <p className="text-xs text-text-muted text-center lg:text-left font-mono hidden lg:block">
+          Catus v1.0.0
+        </p>
       </div>
     </aside>
   );

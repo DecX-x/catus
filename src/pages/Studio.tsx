@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { save } from "@tauri-apps/plugin-dialog";
+import type { HistoryEntry } from "./History";
 
 // ─── Voice metadata (names match AVAILABLE_VOICES in tts.rs exactly) ────────
 const VOICES = [
@@ -72,12 +73,30 @@ async function decodeWavBase64(b64: string): Promise<AudioBuffer> {
   return ctx.decodeAudioData(bytes.buffer);
 }
 
+// ─── History helpers ─────────────────────────────────────────────────────────
+const HISTORY_KEY = "catus_history";
+
+function pushHistoryEntry(entry: HistoryEntry) {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    const list: HistoryEntry[] = raw ? JSON.parse(raw) : [];
+    list.unshift(entry); // newest first
+    // Cap at 200 entries to avoid unbounded localStorage growth
+    if (list.length > 200) list.length = 200;
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
+  } catch {}
+}
+
 // ─── Component ───────────────────────────────────────────────────────────────
-export function Studio() {
+interface StudioProps {
+  defaultVoice?: string;
+}
+
+export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
   const [text, setText] = useState(
     "The quick brown fox jumps over the lazy dog. But in this digital age, the fox prefers to stream his adventures in 4K resolution while the dog blogs about sustainable bone burying practices."
   );
-  const [selectedVoice, setSelectedVoice] = useState("Jasper");
+  const [selectedVoice, setSelectedVoice] = useState(defaultVoice);
   const [speed, setSpeed] = useState(1.0);
   const [stabilityBoost, setStabilityBoost] = useState(true);
 
@@ -201,6 +220,18 @@ export function Studio() {
       const buf = await decodeWavBase64(result.audio_base64);
       audioCtxRef.current = new AudioContext();
       audioBufferRef.current = buf;
+
+      // Persist to history
+      const entry: HistoryEntry = {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        text: text.trim(),
+        voice: selectedVoice,
+        speed,
+        duration: result.duration_secs,
+        audioBase64: result.audio_base64,
+        createdAt: Date.now(),
+      };
+      pushHistoryEntry(entry);
     } catch (e) {
       setError(`Generation failed: ${e}`);
     } finally {
