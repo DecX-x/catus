@@ -9,8 +9,8 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
     <aside className="w-20 lg:w-64 bg-surface border-r border-orange-100 flex flex-col justify-between py-6 shadow-neostyle z-20">
       <div className="px-4 lg:px-6">
         <div className="flex items-center gap-3 mb-10 justify-center lg:justify-start">
-          <div className="bg-primary text-white p-2 rounded-xl shadow-neostyle flex-shrink-0">
-            <span className="material-symbols-outlined text-2xl">pets</span>
+          <div className="w-10 h-10 flex-shrink-0">
+            <img src="/logo.png" alt="Catus" className="w-full h-full object-contain rounded-xl" />
           </div>
           <span className="font-display font-bold text-2xl tracking-tight text-text hidden lg:block">Catus</span>
         </div>

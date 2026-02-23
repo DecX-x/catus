@@ -296,14 +296,14 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
   return (
     <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
       {/* Ambient blobs */}
-      <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none" />
-      <div className="absolute bottom-[-50px] left-[200px] w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 pointer-events-none" />
+      <div className="absolute top-[-80px] right-[-80px] w-96 h-96 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-25 pointer-events-none" />
+      <div className="absolute bottom-[-80px] left-[160px] w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none" />
 
       {/* Header */}
-      <header className="px-8 py-6 flex justify-between items-center bg-transparent z-10">
+      <header className="px-8 py-5 flex justify-between items-center bg-transparent z-10 flex-shrink-0">
         <div>
           <h1 className="font-display font-bold text-3xl text-text">Studio</h1>
-          <p className="text-text-muted text-sm font-medium flex items-center gap-1">
+          <p className="text-text-muted text-sm font-medium flex items-center gap-1.5 mt-0.5">
             {engineReady ? (
               <>
                 <span className="inline-block w-2 h-2 rounded-full bg-green-400" />
@@ -322,29 +322,29 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
             )}
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           <button
-            className="bg-white text-text border-2 border-gray-200 px-4 py-2 rounded-xl font-bold shadow-button-depth-secondary squishy-btn flex items-center gap-2 hover:bg-gray-50"
+            className="bg-white/80 text-text border-2 border-gray-200 px-4 py-2 rounded-xl font-bold shadow-button-depth-secondary squishy-btn flex items-center gap-2 hover:bg-white transition-colors"
             onClick={async () => {
-              try {
-                const t = await navigator.clipboard.readText();
-                setText(t);
-              } catch {}
+              try { const t = await navigator.clipboard.readText(); setText(t); } catch {}
             }}
           >
             <span className="material-symbols-outlined text-sm">content_paste</span>
             Paste
           </button>
-          <button className="bg-white text-text border-2 border-gray-200 px-4 py-2 rounded-xl font-bold shadow-button-depth-secondary squishy-btn flex items-center gap-2 hover:bg-gray-50">
-            <span className="material-symbols-outlined text-sm">save</span>
-            Save
+          <button
+            className="bg-white/80 text-text border-2 border-gray-200 px-4 py-2 rounded-xl font-bold shadow-button-depth-secondary squishy-btn flex items-center gap-2 hover:bg-white transition-colors"
+            onClick={() => setText("")}
+          >
+            <span className="material-symbols-outlined text-sm">delete_sweep</span>
+            Clear
           </button>
         </div>
       </header>
 
       {/* Error banner */}
       {error && (
-        <div className="mx-8 mb-2 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 font-medium flex items-center gap-2">
+        <div className="mx-8 mb-2 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 font-medium flex items-center gap-2 z-10">
           <span className="material-symbols-outlined text-base">error</span>
           {error}
           <button className="ml-auto text-red-400 hover:text-red-600" onClick={() => setError(null)}>
@@ -353,55 +353,46 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
         </div>
       )}
 
-      {/* Main layout */}
-      <div className="flex-1 px-8 pb-8 flex flex-col lg:flex-row gap-6 overflow-hidden">
-        {/* Left: text area + player */}
-        <div className="flex-1 flex flex-col gap-4 min-h-0">
-          {/* Text area */}
-          <div className="bg-surface rounded-3xl p-1 shadow-neostyle border-2 border-white flex-1 flex flex-col relative group">
-            <div className="absolute top-4 right-4 flex gap-2 z-10 opacity-50 group-hover:opacity-100 transition-opacity">
-              <button
-                className="p-2 hover:bg-gray-100 rounded-lg text-text-muted transition-colors"
-                title="Clear"
-                onClick={() => setText("")}
-              >
-                <span className="material-symbols-outlined text-lg">delete_sweep</span>
-              </button>
-              <button
-                className="p-2 hover:bg-gray-100 rounded-lg text-text-muted transition-colors"
-                title="Paste"
-                onClick={async () => {
-                  try {
-                    const t = await navigator.clipboard.readText();
-                    setText((prev) => prev + t);
-                  } catch {}
-                }}
-              >
-                <span className="material-symbols-outlined text-lg">content_paste</span>
-              </button>
+      {/* Main layout — left takes all space, right is fixed sidebar */}
+      <div className="flex-1 px-8 pb-8 flex flex-row gap-6 overflow-hidden min-h-0">
+
+        {/* ── LEFT: text area + player bar ── */}
+        <div className="flex-1 flex flex-col gap-4 min-h-0 min-w-0">
+
+          {/* Text area card */}
+          <div className="bg-surface rounded-3xl shadow-neostyle border-2 border-white flex-1 flex flex-col relative overflow-hidden">
+            {/* Toolbar row */}
+            <div className="flex items-center justify-between px-5 pt-4 pb-2 border-b border-gray-100/80">
+              <span className="text-xs font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-base text-primary">edit_note</span>
+                Input Text
+              </span>
+              <span className="text-xs font-bold text-text-muted bg-orange-50 px-3 py-1 rounded-full border border-orange-100">
+                {text.length} / 5000
+              </span>
             </div>
+
             <textarea
-              className="w-full h-full p-6 bg-gray-50/50 rounded-[1.3rem] border-none focus:ring-0 resize-none text-lg text-text placeholder-gray-400 font-medium leading-relaxed shadow-inner-depth outline-none"
+              className="w-full flex-1 px-6 py-4 bg-transparent border-none focus:ring-0 resize-none text-[1.05rem] text-text placeholder-gray-300 font-medium leading-relaxed outline-none"
               placeholder="Type or paste your text here to convert to speech…"
               value={text}
               onChange={(e) => setText(e.target.value)}
               maxLength={5000}
             />
-            <div className="absolute bottom-4 right-6 text-xs font-bold text-text-muted bg-white/80 px-3 py-1 rounded-full border border-gray-100 shadow-sm">
-              {text.length} / 5000 chars
+
+            {/* Bottom hint */}
+            <div className="px-5 py-2 border-t border-gray-100/80 flex items-center gap-2 text-xs text-text-muted">
+              <span className="material-symbols-outlined text-sm">info</span>
+              Supports up to 5,000 characters per generation
             </div>
           </div>
 
           {/* Player bar */}
-          <div
-            className={`bg-surface rounded-2xl p-4 shadow-neostyle border border-orange-100 flex items-center gap-4 ${
-              isPlaying ? "playing" : ""
-            }`}
-          >
+          <div className={`bg-surface rounded-2xl px-5 py-4 shadow-neostyle border-2 border-white flex items-center gap-4 flex-shrink-0 ${isPlaying ? "playing" : ""}`}>
             {/* Play / Pause */}
             <button
               className={`w-12 h-12 rounded-full text-white flex items-center justify-center shadow-button-depth squishy-btn flex-shrink-0 transition-colors ${
-                hasAudio ? "bg-primary hover:bg-primaryDark" : "bg-gray-300 cursor-not-allowed"
+                hasAudio ? "bg-primary hover:bg-primaryDark" : "bg-gray-200 cursor-not-allowed"
               }`}
               onClick={handlePlayPause}
               disabled={!hasAudio}
@@ -411,52 +402,47 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
               </span>
             </button>
 
-            {/* Seekbar / waveform */}
-            <div
-              className="flex-1 flex flex-col justify-center gap-1 cursor-pointer select-none"
-              onClick={handleSeek}
-            >
-              {/* Animated waveform bars */}
-              <div className="flex items-center gap-[3px] h-10 px-1">
-                {[...Array(32)].map((_, i) => {
-                  const active = hasAudio && progress > (i / 32) * 100;
+            {/* Waveform + seekbar */}
+            <div className="flex-1 flex flex-col justify-center gap-1.5 cursor-pointer select-none" onClick={handleSeek}>
+              <div className="flex items-center gap-[3px] h-9 px-1">
+                {[...Array(48)].map((_, i) => {
+                  const active = hasAudio && progress > (i / 48) * 100;
                   return (
                     <div
                       key={i}
-                      className={`flex-1 rounded-full transition-all ${
-                        active ? "bg-primary" : "bg-orange-200"
-                      } ${isPlaying ? "wave-bar" : ""}`}
+                      className={`flex-1 rounded-full transition-all ${active ? "bg-primary" : "bg-orange-100"} ${isPlaying ? "wave-bar" : ""}`}
                       style={{
-                        height: isPlaying
-                          ? undefined
-                          : `${20 + Math.sin(i * 0.8) * 14}%`,
-                        animationDelay: isPlaying ? `${(i % 6) * 0.08}s` : undefined,
+                        height: isPlaying ? undefined : `${18 + Math.sin(i * 0.7 + 1) * 16}%`,
+                        animationDelay: isPlaying ? `${(i % 8) * 0.06}s` : undefined,
                       }}
                     />
                   );
                 })}
               </div>
-
-              {/* Progress track */}
-              <div className="relative w-full h-1 bg-gray-100 rounded-full">
-                <div
-                  className="absolute top-0 left-0 h-full bg-primary rounded-full transition-all"
-                  style={{ width: `${progress}%` }}
-                />
+              <div className="relative w-full h-[3px] bg-gray-100 rounded-full">
+                <div className="absolute top-0 left-0 h-full bg-primary rounded-full transition-all" style={{ width: `${progress}%` }} />
               </div>
             </div>
 
-            {/* Time */}
-            <div className="text-xs font-mono font-bold text-text-muted whitespace-nowrap">
-              {fmtTime(currentTime)} / {fmtTime(audioDuration)}
+            {/* Time display */}
+            <div className="text-sm font-mono font-bold text-text-muted whitespace-nowrap tabular-nums">
+              {fmtTime(currentTime)} <span className="text-gray-300">/</span> {fmtTime(audioDuration)}
             </div>
 
-            <div className="h-8 w-[1px] bg-gray-200 mx-1" />
+            <div className="h-8 w-px bg-gray-200" />
+
+            {/* Audio info badge */}
+            {hasAudio && (
+              <div className="hidden lg:flex items-center gap-1.5 text-xs font-bold text-primary bg-orange-50 px-3 py-1.5 rounded-xl border border-orange-100">
+                <span className="material-symbols-outlined text-sm">audio_file</span>
+                {selectedVoice} · 24kHz
+              </div>
+            )}
 
             {/* Download */}
             <button
-              className={`p-2 rounded-full transition-colors ${
-                hasAudio ? "hover:bg-gray-100 text-text" : "text-gray-300 cursor-not-allowed"
+              className={`p-2 rounded-xl transition-colors ${
+                hasAudio ? "hover:bg-orange-50 hover:text-primary text-text-muted" : "text-gray-200 cursor-not-allowed"
               }`}
               title="Download WAV"
               onClick={handleDownload}
@@ -467,11 +453,12 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
           </div>
         </div>
 
-        {/* Right: controls panel */}
-        <div className="w-full lg:w-96 flex flex-col gap-5 overflow-y-auto pr-1 pb-4">
+        {/* ── RIGHT: controls panel ── */}
+        <div className="w-72 flex-shrink-0 flex flex-col gap-4 overflow-y-auto pb-2">
+
           {/* Generate button */}
           <button
-            className={`w-full py-4 rounded-2xl font-display font-bold text-xl shadow-button-depth squishy-btn flex items-center justify-center gap-2 group transition-colors ${
+            className={`w-full py-4 rounded-2xl font-display font-bold text-lg shadow-button-depth squishy-btn flex items-center justify-center gap-2 group transition-colors flex-shrink-0 ${
               engineReady && !isGenerating && text.trim()
                 ? "bg-primary hover:bg-primaryDark text-white"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -479,28 +466,24 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
             onClick={handleGenerate}
             disabled={!engineReady || isGenerating || !text.trim()}
           >
-            <span
-              className={`material-symbols-outlined text-3xl ${
-                isGenerating ? "animate-spin" : "group-hover:animate-spin"
-              }`}
-            >
+            <span className={`material-symbols-outlined text-2xl ${isGenerating ? "animate-spin" : "group-hover:animate-spin"}`}>
               {isGenerating ? "progress_activity" : "autorenew"}
             </span>
             {isGenerating ? "Generating…" : "Generate Speech"}
           </button>
 
           {/* Voice selection */}
-          <div className="bg-surface p-6 rounded-3xl shadow-neostyle border border-white">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="font-bold text-lg text-text flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary">record_voice_over</span>
+          <div className="bg-surface p-5 rounded-3xl shadow-neostyle border-2 border-white">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="font-bold text-base text-text flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary text-xl">record_voice_over</span>
                 Voice
               </h2>
-              <span className="text-xs font-bold text-primary bg-orange-50 px-2 py-1 rounded">
+              <span className="text-xs font-bold text-primary bg-orange-50 px-2 py-0.5 rounded-full border border-orange-100">
                 {VOICES.length} voices
               </span>
             </div>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-4 gap-2">
               {VOICES.map((v) => {
                 const active = selectedVoice === v.name;
                 return (
@@ -510,10 +493,8 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
                     onClick={() => setSelectedVoice(v.name)}
                   >
                     <div
-                      className={`w-14 h-14 rounded-full border-2 overflow-hidden transition-all relative ${
-                        active
-                          ? "border-primary shadow-button-depth scale-105"
-                          : "border-transparent hover:border-orange-200 voice-avatar"
+                      className={`w-13 h-13 w-[52px] h-[52px] rounded-full border-2 overflow-hidden transition-all relative ${
+                        active ? "border-primary shadow-button-depth scale-105" : "border-transparent hover:border-orange-200"
                       }`}
                     >
                       <img
@@ -525,18 +506,12 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
                         }}
                       />
                       {active && (
-                        <div className="absolute inset-0 bg-primary/10 flex items-end justify-center pb-1">
-                          <span className="material-symbols-outlined text-primary text-sm drop-shadow">
-                            check_circle
-                          </span>
+                        <div className="absolute inset-0 bg-primary/10 flex items-end justify-center pb-0.5">
+                          <span className="material-symbols-outlined text-primary text-sm drop-shadow">check_circle</span>
                         </div>
                       )}
                     </div>
-                    <span
-                      className={`text-xs font-medium ${
-                        active ? "text-primary font-bold" : "text-text-muted group-hover:text-text"
-                      }`}
-                    >
+                    <span className={`text-[11px] font-medium leading-tight ${active ? "text-primary font-bold" : "text-text-muted group-hover:text-text"}`}>
                       {v.name}
                     </span>
                   </div>
@@ -546,35 +521,29 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
           </div>
 
           {/* Parameters */}
-          <div className="bg-surface p-6 rounded-3xl shadow-neostyle border border-white flex flex-col gap-5">
-            <h2 className="font-bold text-lg text-text flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary">tune</span>
+          <div className="bg-surface p-5 rounded-3xl shadow-neostyle border-2 border-white flex flex-col gap-4">
+            <h2 className="font-bold text-base text-text flex items-center gap-2">
+              <span className="material-symbols-outlined text-primary text-xl">tune</span>
               Parameters
             </h2>
 
-            {/* Speed slider */}
+            {/* Speed */}
             <div>
               <div className="flex justify-between mb-2">
                 <label className="text-sm font-bold text-text-muted">Speed</label>
                 <span className="text-sm font-bold text-primary">{speed.toFixed(2)}x</span>
               </div>
               <input
-                type="range"
-                min={0.5}
-                max={2.0}
-                step={0.05}
-                value={speed}
+                type="range" min={0.5} max={2.0} step={0.05} value={speed}
                 onChange={(e) => setSpeed(parseFloat(e.target.value))}
                 className="w-full h-2 rounded-full appearance-none cursor-pointer accent-primary bg-gray-100"
               />
               <div className="flex justify-between mt-1 text-xs text-gray-400 font-medium">
-                <span>0.5x</span>
-                <span>1x</span>
-                <span>2x</span>
+                <span>0.5x</span><span>1x</span><span>2x</span>
               </div>
             </div>
 
-            {/* Stability Boost toggle */}
+            {/* Stability Boost */}
             <div className="flex items-center justify-between py-2 border-t border-gray-100">
               <div>
                 <span className="text-sm font-bold text-text-muted block">Stability Boost</span>
@@ -582,50 +551,26 @@ export function Studio({ defaultVoice = "Jasper" }: StudioProps) {
               </div>
               <button
                 onClick={() => setStabilityBoost((v) => !v)}
-                className={`w-12 h-6 rounded-full relative cursor-pointer shadow-inner transition-colors ${
-                  stabilityBoost ? "bg-primary" : "bg-gray-200"
-                }`}
+                className={`w-11 h-6 rounded-full relative cursor-pointer shadow-inner transition-colors flex-shrink-0 ${stabilityBoost ? "bg-primary" : "bg-gray-200"}`}
               >
-                <div
-                  className={`w-4 h-4 bg-white rounded-full absolute top-1 shadow-sm transition-all ${
-                    stabilityBoost ? "right-1" : "left-1"
-                  }`}
-                />
+                <div className={`w-4 h-4 bg-white rounded-full absolute top-1 shadow-sm transition-all ${stabilityBoost ? "right-1" : "left-1"}`} />
               </button>
             </div>
           </div>
 
-          {/* Format picker (WAV only for now) */}
-          <div className="bg-surface p-4 rounded-2xl shadow-neostyle border border-white flex gap-2">
-            <button className="flex-1 py-2 text-sm font-bold text-white bg-text rounded-xl shadow-md">
+          {/* Format picker */}
+          <div className="bg-surface p-3 rounded-2xl shadow-neostyle border-2 border-white flex gap-2 flex-shrink-0">
+            <button className="flex-1 py-2 text-sm font-bold text-white bg-text rounded-xl shadow-sm">
               .WAV
             </button>
-            <button
-              className="flex-1 py-2 text-sm font-bold text-text-muted hover:bg-gray-50 rounded-xl transition-colors opacity-40 cursor-not-allowed"
-              disabled
-              title="Coming soon"
-            >
+            <button className="flex-1 py-2 text-sm font-bold text-text-muted rounded-xl opacity-40 cursor-not-allowed" disabled title="Coming soon">
               .MP3
             </button>
-            <button
-              className="flex-1 py-2 text-sm font-bold text-text-muted hover:bg-gray-50 rounded-xl transition-colors opacity-40 cursor-not-allowed"
-              disabled
-              title="Coming soon"
-            >
+            <button className="flex-1 py-2 text-sm font-bold text-text-muted rounded-xl opacity-40 cursor-not-allowed" disabled title="Coming soon">
               .OGG
             </button>
           </div>
 
-          {/* Audio info */}
-          {hasAudio && (
-            <div className="bg-orange-50 border border-orange-100 p-4 rounded-2xl text-sm text-text-muted flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary">audio_file</span>
-              <div>
-                <div className="font-bold text-text">{selectedVoice} · WAV · 24kHz</div>
-                <div>Duration: {fmtTime(audioDuration)}</div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </main>
