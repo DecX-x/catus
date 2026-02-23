@@ -31,13 +31,8 @@ export function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             <span className="font-bold hidden lg:block">History</span>
           </button>
           <button 
-            className="w-full sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group hover:bg-orange-50 text-text-muted"
-          >
-            <span className="material-symbols-outlined text-2xl group-hover:text-primary">library_books</span>
-            <span className="font-bold hidden lg:block">Presets</span>
-          </button>
-          <button 
-            className="w-full sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group hover:bg-orange-50 text-text-muted"
+            onClick={() => setActiveTab('settings')}
+            className={`w-full sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group ${activeTab === 'settings' ? 'active' : 'hover:bg-orange-50 text-text-muted'}`}
           >
             <span className="material-symbols-outlined text-2xl group-hover:text-primary">settings</span>
             <span className="font-bold hidden lg:block">Settings</span>

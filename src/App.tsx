@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sidebar } from "./components/Sidebar";
 import { Studio } from "./pages/Studio";
 import { History } from "./pages/History";
+import { Settings } from "./pages/Settings";
 import "./App.css";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       
       {activeTab === 'studio' && <Studio />}
       {activeTab === 'history' && <History />}
+      {activeTab === 'settings' && <Settings />}
     </div>
   );
 }

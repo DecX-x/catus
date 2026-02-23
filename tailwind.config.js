@@ -19,6 +19,8 @@ export default {
         surface: "#FFFFFF",
         text: "#2D3436",
         "text-muted": "#636E72",
+        warning: "#FF6B6B",
+        warningDark: "#E05050",
       },
       fontFamily: {
         display: ["Space Grotesk", "sans-serif"],
@@ -33,6 +35,7 @@ export default {
         'card-depth': '0 4px 0 #E5E5E5',
         'button-depth': '0 4px 0 #E66A1B',
         'button-depth-secondary': '0 4px 0 #D1D5DB',
+        'button-depth-warning': '0 4px 0 #E05050',
       },
       borderRadius: {
         'xl': '1rem',
