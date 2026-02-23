@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FFF4EB;
+    background-image: radial-gradient(#FFD9C0 1px, transparent 1px);
+    background-size: 24px 24px;
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .squishy-btn {
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .squishy-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 transparent !important;
+  }
+  
+  textarea::-webkit-scrollbar {
+    width: 12px;
+  }
+  textarea::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+  }
+  textarea::-webkit-scrollbar-thumb {
+    background: #FFD9C0;
+    border-radius: 8px;
+    border: 3px solid #f1f1f1;
+  }
+  textarea::-webkit-scrollbar-thumb:hover {
+    background: #FF8C42;
+  }
+  
+  .sidebar-item.active {
+    background-color: #FFF4EB;
+    color: #FF8C42;
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.05);
+  }
+  
+  .voice-avatar.selected {
+    border-color: #FF8C42;
+    box-shadow: 0 0 0 4px #FFD9C0;
+    transform: scale(1.05);
+  }
+
+  .playing .wave-bar {
+    animation: waveform 0.8s ease-in-out infinite;
+  }
+}
+
+@keyframes waveform {
+  0%, 100% { height: 20%; }
+  50% { height: 100%; }
+}
