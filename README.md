@@ -1,6 +1,6 @@
 # Catus
 
-A fast, private, offline Text-to-Speech desktop app powered by [KittenTTS Nano](https://huggingface.co/KittenML/kitten-tts-nano-0.8-int8) — running entirely in Rust, no Python, no GPU, no cloud.
+A fast, private, offline Text-to-Speech desktop app powered by [KittenTTS Nano](https://huggingface.co/KittenML/kitten-tts-nano-0.8-int8) - running entirely in Rust, no GPU, no cloud.
 
 ![Catus Screenshot](public/logo.png)
 
@@ -11,7 +11,6 @@ A fast, private, offline Text-to-Speech desktop app powered by [KittenTTS Nano](
 Catus is an open-source desktop TTS app built with **Tauri v2** (Rust backend) and **React 19 + TypeScript** (frontend). It runs the KittenTTS Nano 0.8 model locally on your CPU, producing high-quality speech audio without sending a single byte to the internet.
 
 - **100% offline** — your text never leaves your machine
-- **No Python runtime** — the entire inference pipeline is pure Rust
 - **No GPU required** — CPU-only via ONNX Runtime
 - **Lightweight** — ~25MB INT8 quantized ONNX model
 
