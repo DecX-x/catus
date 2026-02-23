@@ -1,0 +1,1 @@
+use ort::session::Session; fn main() { let s = Session::builder().unwrap().commit_from_file("../models/kitten_tts_nano_v0_8.onnx").unwrap(); println!("Inputs: {:?}", s.inputs()); println!("Outputs: {:?}", s.outputs()); }
